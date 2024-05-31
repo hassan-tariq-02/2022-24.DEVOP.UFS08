@@ -10,6 +10,7 @@ terraform {
 variable "GOOGLE_CLOUD_PROJECT_ID" {
   type = string
 }
+//
 provider "google" {
   project = var.GOOGLE_CLOUD_PROJECT_ID
 }
