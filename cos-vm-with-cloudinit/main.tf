@@ -103,7 +103,7 @@ resource "google_compute_disk" "ssd_persistent_disk" {
   physical_block_size_bytes = 4096     // Lowest block size available
 
   // Even when Terraform wants to provision a new resource the old one shouldn't get destroyed
-  lifecycle { prevent_destroy = true }
+  lifecycle { prevent_destroy = false }
 }
 
 // Resource: Provision Firewall rules for every Compute Engine instance w/ 'my-allow-80' tags
@@ -115,15 +115,15 @@ resource "google_compute_disk" "ssd_persistent_disk" {
 resource "google_compute_firewall" "my-firewall-rules" {
   provider = google-beta
 
-  project = nonsensitive(data.doppler_secrets.googlecloud.map.PROJECT_ID)
+  project = var.GOOGLE_CLOUD_PROJECT_ID
 
   name        = "my-firewall-rules"
-  description = "GCP Firewall rule for Compute Engine instances with 'my-allow-80' tag"
+  description = "GCP Firewall rule for Compute Engine instances with 'cd ..-80' tag"
 
-  network     = "default"       // This rules apply to the project VPC provisioned in ./network.tf
+  network     = "default"
   target_tags = ["my-allow-80"] // All Compute instances with this tags use this firewall rule 
 
-  // Allows both inbound and outbound connection(s) from everyone to port 11625 and 11626
+  // Allows both inbound and outbound connection(s) from everyone to port 80
   source_ranges = ["0.0.0.0/0"] // Allows traffic from all (VPC internal only) sources 
   allow {
     protocol = "tcp"

@@ -11,12 +11,16 @@ variable "GOOGLE_CLOUD_PROJECT_ID" {
   type = string
 }
 
+variable "VM_INSTANCE_NAME" {
+  type    = string
+  default = "my-instance"
+}
 provider "google" {
-  project = "${var.GOOGLE_CLOUD_PROJECT_ID}"
+  project = var.GOOGLE_CLOUD_PROJECT_ID
 }
 
 resource "google_compute_instance" "default" {
-  name         = "my-instance"
+  name         = var.VM_INSTANCE_NAME
   machine_type = "n2-standard-2"
   zone         = "us-central1-a"
 
@@ -40,6 +44,6 @@ resource "google_compute_instance" "default" {
   }
 
   metadata = {
-    ssh-keys = "jon:${file(pathexpand("~/.ssh/id_rsa.pub"))}"
+    //ssh-keys = "jon:${file(pathexpand("~/.ssh/id_rsa.pub"))}"
   }
 }
