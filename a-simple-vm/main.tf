@@ -13,7 +13,7 @@ variable "GOOGLE_CLOUD_PROJECT_ID" {
 
 variable "VM_INSTANCE_NAME" {
   type    = string
-  default = "my-instance"
+  default = "hasban-instance"
 }
 provider "google" {
   project = var.GOOGLE_CLOUD_PROJECT_ID
